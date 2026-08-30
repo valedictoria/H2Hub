@@ -94,7 +94,9 @@ export function Home() {
                   {engine.name}
                 </td>
                 <td className="hidden w-32 py-4 pr-4 align-top font-mono text-xs tracking-wide text-muted-foreground uppercase sm:table-cell">
-                  {engine.statusLabel ?? "—"}
+                  <span className="inline-block -translate-y-[3px]">
+                    {engine.statusLabel ?? "—"}
+                  </span>
                 </td>
                 <td className="py-4 align-top text-sm text-muted-foreground">
                   {engine.tagline}

@@ -76,7 +76,7 @@ export function Layout() {
         </div>
       </nav>
 
-      <main id="main" className="ml-0 flex-1 px-5 py-10 md:ml-64 md:px-16">
+      <main id="main" className="ml-0 flex-1 px-5 pt-20 pb-10 md:ml-64 md:px-16 md:py-10">
         <div className="mx-auto max-w-5xl">
           <Outlet />
         </div>
