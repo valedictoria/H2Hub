@@ -13,7 +13,7 @@ export function Layout() {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
+    <div className="grain relative flex min-h-screen bg-background text-foreground">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:font-medium focus:text-primary-foreground"
@@ -33,15 +33,21 @@ export function Layout() {
 
       <nav
         className={cn(
-          "fixed top-0 left-0 z-30 flex h-screen w-64 flex-col gap-8 border-r bg-card p-6 pt-20 transition-transform duration-200 md:pt-6",
+          "fixed top-0 left-0 z-30 flex h-screen w-64 flex-col gap-8 border-r border-border bg-card p-6 pt-20 transition-transform duration-200 md:pt-6",
+          "before:absolute before:top-0 before:left-0 before:h-1.5 before:w-full before:bg-primary",
           "md:translate-x-0",
           open ? "translate-x-0" : "-translate-x-full"
         )}
         aria-label="Primary"
       >
-        <div className="font-mono text-lg font-semibold tracking-tight">
-          <span className="bg-primary px-1.5 py-0.5 text-primary-foreground">H2</span>
-          CHESS
+        <div>
+          <div className="font-display text-2xl leading-none font-semibold tracking-tight uppercase">
+            <span className="text-primary">H2</span>CHESS
+            <span className="animate-pulse text-primary">_</span>
+          </div>
+          <div className="mt-1 font-mono text-[0.65rem] tracking-widest text-muted-foreground uppercase">
+            Dispatch — Live
+          </div>
         </div>
 
         <div className="flex flex-col">
@@ -53,7 +59,7 @@ export function Layout() {
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
                 cn(
-                  "border-l-2 border-transparent px-3 py-2 text-sm font-medium text-muted-foreground transition-colors",
+                  "border-l-4 border-transparent px-3 py-2 font-display text-lg tracking-wide text-muted-foreground uppercase transition-colors",
                   "hover:text-foreground",
                   isActive && "border-l-primary text-primary hover:text-primary"
                 )
@@ -64,7 +70,7 @@ export function Layout() {
           ))}
         </div>
 
-        <div className="mt-auto text-sm text-muted-foreground">
+        <div className="mt-auto font-mono text-xs text-muted-foreground">
           <a
             href="https://lichess.org/@/MeikeChess"
             target="_blank"

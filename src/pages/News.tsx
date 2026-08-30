@@ -19,29 +19,27 @@ const ENTRIES = [
 export function News() {
   return (
     <div>
-      <h1 className="mb-6 text-4xl font-semibold tracking-tight">News</h1>
-      <table className="w-full border-collapse">
-        <tbody>
-          {ENTRIES.map((entry) => (
-            <tr key={entry.title} className="border-b border-border">
-              <td className="hidden w-32 py-6 pr-4 align-top font-mono text-xs whitespace-nowrap text-muted-foreground sm:table-cell">
-                <span className="inline-block -translate-y-[3px]">
-                  {entry.date}
-                </span>
-              </td>
-              <td className="py-6 align-top">
-                <div className="mb-1 font-mono text-xs text-muted-foreground uppercase sm:hidden">
-                  {entry.date}
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">{entry.title}</h3>
-                <p className="leading-relaxed text-muted-foreground">
-                  {entry.body}
-                </p>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h1 className="mb-1 font-display text-4xl tracking-wide uppercase">
+        News
+      </h1>
+      <p className="mb-6 font-mono text-xs tracking-widest text-muted-foreground uppercase">
+        Dispatch log
+      </p>
+      <div className="border-t border-border">
+        {ENTRIES.map((entry) => (
+          <article key={entry.title} className="border-b border-border py-6">
+            <div className="mb-1 font-mono text-xs text-primary uppercase">
+              {entry.date}
+            </div>
+            <h3 className="mb-2 font-display text-xl tracking-wide uppercase">
+              {entry.title}
+            </h3>
+            <p className="max-w-2xl font-mono text-sm leading-relaxed text-foreground/85">
+              {entry.body}
+            </p>
+          </article>
+        ))}
+      </div>
     </div>
   )
 }

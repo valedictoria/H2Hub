@@ -35,8 +35,8 @@ export async function getStats(): Promise<Stats> {
 }
 
 export const TIME_CONTROLS = [
-  { key: "classical", label: "Classical", accent: "classical" as const },
-  { key: "rapid", label: "Rapid", accent: "rapid" as const },
-  { key: "blitz", label: "Blitz", accent: "blitz" as const },
-  { key: "bullet", label: "Bullet", accent: "bullet" as const },
-]
+  { key: "classical", label: "Classical" },
+  { key: "rapid", label: "Rapid" },
+  { key: "blitz", label: "Blitz" },
+  { key: "bullet", label: "Bullet" },
+] as const

@@ -1,13 +1,28 @@
 import { useEffect, useState } from "react"
+import { motion, type Variants } from "motion/react"
 import { getStats, TIME_CONTROLS, type Stats } from "@/data/stats"
 import { REPOS } from "@/data/repos"
 import { ENGINES } from "@/data/engines"
+import { AnsiLogo } from "@/components/AnsiLogo"
 
-const BORDER_CLASSES: Record<string, string> = {
-  classical: "border-l-classical",
-  rapid: "border-l-rapid",
-  blitz: "border-l-blitz",
-  bullet: "border-l-bullet",
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
+}
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+}
+
+function dotLeader(label: string, value: string) {
+  return (
+    <div className="flex items-baseline gap-2 font-mono text-sm">
+      <span className="whitespace-nowrap">{label}</span>
+      <span className="flex-1 overflow-hidden border-b border-dotted border-muted-foreground/50 pb-1" />
+      <span className="whitespace-nowrap">{value}</span>
+    </div>
+  )
 }
 
 export function Home() {
@@ -18,100 +33,95 @@ export function Home() {
   }, [])
 
   return (
-    <div className="flex flex-col gap-16">
+    <motion.div
+      className="flex flex-col gap-16"
+      variants={container}
+      initial="hidden"
+      animate="show"
+    >
       <section className="pt-6 pb-4">
-        <div className="mb-5 inline-flex items-center gap-2 border-b border-primary pb-1 font-mono text-xs font-medium tracking-widest text-primary uppercase">
-          <span className="size-2 bg-primary" />
-          Live on Lichess
-        </div>
-        <h1 className="mb-3 text-5xl font-semibold tracking-tight md:text-6xl">
-          H2CHESS
-        </h1>
-        <p className="mb-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
+        <motion.div variants={item} className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-primary uppercase">
+          <span className="size-2 animate-pulse bg-primary" />
+          Dispatch — Live from lichess.org
+        </motion.div>
+
+        <h1 className="sr-only">H2CHESS</h1>
+        <motion.div variants={item} className="-ml-1 overflow-x-auto">
+          <AnsiLogo className="text-[3vw] sm:text-[1.6rem] md:text-[1.85rem]" />
+        </motion.div>
+
+        <motion.div variants={item} className="my-5 border-t-[7px] border-double border-primary/70" />
+
+        <motion.p variants={item} className="mb-7 max-w-xl text-lg leading-relaxed text-foreground/90">
           A chess engine built from scratch. It plays live, public games on
           Lichess under the account MeikeChess — every move it makes is
           visible in real time, win or lose.
-        </p>
-        <a
+        </motion.p>
+
+        <motion.a
+          variants={item}
           href="https://lichess.org/@/MeikeChess"
           target="_blank"
           rel="noopener"
-          className="inline-flex items-center bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
+          className="inline-flex items-center bg-primary px-6 py-3 font-display text-lg tracking-wide text-primary-foreground uppercase transition-colors hover:bg-foreground hover:text-background"
         >
           Watch it play on Lichess
-        </a>
+        </motion.a>
       </section>
 
       <section>
-        <h2 className="mb-1 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+        <h2 className="mb-1 font-display text-2xl tracking-wide uppercase">
           Current ratings
         </h2>
-        <p className="mb-4 text-sm text-muted-foreground">
+        <p className="mb-4 font-mono text-sm text-muted-foreground">
           MeikeChess on Lichess — H2-Classical's account. BravoBlue and
           Fairy-MC don't play on Lichess yet.
         </p>
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="border-b border-border text-left font-mono text-xs tracking-widest text-muted-foreground uppercase">
-              <th className="py-2 font-medium">Time control</th>
-              <th className="py-2 pr-2 text-right font-medium">Rating</th>
-              <th className="hidden py-2 text-right font-medium sm:table-cell">
-                Games
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {TIME_CONTROLS.map((tc) => {
-              const perf = stats?.perfs[tc.key as keyof Stats["perfs"]]
-              return (
-                <tr
-                  key={tc.key}
-                  className={`border-b border-border border-l-4 ${BORDER_CLASSES[tc.accent]}`}
-                >
-                  <td className="py-4 pl-4 font-medium">{tc.label}</td>
-                  <td className="py-4 pr-2 text-right font-mono text-2xl font-medium tabular-nums">
-                    {perf ? perf.rating : "—"}
-                  </td>
-                  <td className="hidden py-4 text-right font-mono text-sm text-muted-foreground sm:table-cell">
-                    {perf ? perf.games : ""}
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        <div className="flex flex-col gap-3 border-t border-border pt-4">
+          {TIME_CONTROLS.map((tc) => {
+            const perf = stats?.perfs[tc.key as keyof Stats["perfs"]]
+            return (
+              <div key={tc.key}>
+                {dotLeader(
+                  tc.label.toUpperCase(),
+                  perf ? `${perf.rating}  (${perf.games} games)` : "—"
+                )}
+              </div>
+            )
+          })}
+        </div>
       </section>
 
       <section>
-        <h2 className="mb-4 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+        <h2 className="mb-4 font-display text-2xl tracking-wide uppercase">
           The engines
         </h2>
-        <table className="w-full border-collapse">
-          <tbody>
-            {ENGINES.map((engine) => (
-              <tr key={engine.id} className="border-b border-border">
-                <td className="w-40 py-4 pr-4 align-top font-medium whitespace-nowrap">
+        <div className="flex flex-col">
+          {ENGINES.map((engine) => (
+            <div key={engine.id} className="border-b border-border py-4">
+              <div className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="font-display text-lg tracking-wide uppercase">
                   {engine.name}
-                </td>
-                <td className="hidden w-32 py-4 pr-4 align-top font-mono text-xs tracking-wide text-muted-foreground uppercase sm:table-cell">
-                  <span className="inline-block -translate-y-[3px]">
-                    {engine.statusLabel ?? "—"}
+                </span>
+                {engine.statusLabel && (
+                  <span className="font-mono text-xs text-primary uppercase">
+                    [{engine.statusLabel}]
                   </span>
-                </td>
-                <td className="py-4 align-top text-sm text-muted-foreground">
-                  {engine.tagline}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                )}
+              </div>
+              <p className="max-w-2xl font-mono text-sm text-muted-foreground">
+                {engine.tagline}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section>
-        <h2 className="mb-2 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+        <h2 className="mb-2 font-display text-2xl tracking-wide uppercase">
           Source
         </h2>
-        <p className="mb-4 max-w-xl text-muted-foreground">
+        <p className="mb-4 max-w-xl font-mono text-sm text-muted-foreground">
           Three engines, one lineage. Each is developed and tested
           independently.
         </p>
@@ -122,12 +132,12 @@ export function Home() {
                 alt={repo.label}
                 src={`https://img.shields.io/github/last-commit/${repo.owner}/${repo.name}?label=${encodeURIComponent(
                   repo.label
-                )}&color=2563eb&logo=github&logoColor=white`}
+                )}&color=a3232f&logo=github&logoColor=e9dfc8&labelColor=1d1815`}
               />
             </a>
           ))}
         </div>
       </section>
-    </div>
+    </motion.div>
   )
 }
