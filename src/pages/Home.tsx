@@ -1,22 +1,13 @@
 import { useEffect, useState } from "react"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { getStats, TIME_CONTROLS, type Stats } from "@/data/stats"
 import { REPOS } from "@/data/repos"
 import { ENGINES } from "@/data/engines"
 
-const ACCENT_CLASSES: Record<string, string> = {
-  classical: "border-t-classical",
-  rapid: "border-t-rapid",
-  blitz: "border-t-blitz",
-  bullet: "border-t-bullet",
-}
-
-const ACCENT_TEXT_CLASSES: Record<string, string> = {
-  classical: "text-classical",
-  rapid: "text-rapid",
-  blitz: "text-blitz",
-  bullet: "text-bullet",
+const BORDER_CLASSES: Record<string, string> = {
+  classical: "border-l-classical",
+  rapid: "border-l-rapid",
+  blitz: "border-l-blitz",
+  bullet: "border-l-bullet",
 }
 
 export function Home() {
@@ -29,10 +20,10 @@ export function Home() {
   return (
     <div className="flex flex-col gap-16">
       <section className="pt-6 pb-4">
-        <Badge className="mb-4 gap-2 bg-primary/10 text-primary hover:bg-primary/10">
-          <span className="size-1.5 rounded-full bg-primary" />
+        <div className="mb-5 inline-flex items-center gap-2 border-b border-primary pb-1 font-mono text-xs font-medium tracking-widest text-primary uppercase">
+          <span className="size-2 bg-primary" />
           Live on Lichess
-        </Badge>
+        </div>
         <h1 className="mb-3 text-5xl font-semibold tracking-tight md:text-6xl">
           H2CHESS
         </h1>
@@ -45,7 +36,7 @@ export function Home() {
           href="https://lichess.org/@/MeikeChess"
           target="_blank"
           rel="noopener"
-          className="inline-flex items-center rounded-md bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+          className="inline-flex items-center bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
         >
           Watch it play on Lichess
         </a>
@@ -59,49 +50,59 @@ export function Home() {
           MeikeChess on Lichess — H2-Classical's account. BravoBlue and
           Fairy-MC don't play on Lichess yet.
         </p>
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {TIME_CONTROLS.map((tc) => {
-            const perf = stats?.perfs[tc.key as keyof Stats["perfs"]]
-            return (
-              <Card key={tc.key} className={`border-t-4 ${ACCENT_CLASSES[tc.accent]}`}>
-                <CardHeader>
-                  <div className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-                    {tc.label}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className={`text-4xl font-semibold tabular-nums ${ACCENT_TEXT_CLASSES[tc.accent]}`}>
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="border-b border-border text-left font-mono text-xs tracking-widest text-muted-foreground uppercase">
+              <th className="py-2 font-medium">Time control</th>
+              <th className="py-2 pr-2 text-right font-medium">Rating</th>
+              <th className="hidden py-2 text-right font-medium sm:table-cell">
+                Games
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {TIME_CONTROLS.map((tc) => {
+              const perf = stats?.perfs[tc.key as keyof Stats["perfs"]]
+              return (
+                <tr
+                  key={tc.key}
+                  className={`border-b border-border border-l-4 ${BORDER_CLASSES[tc.accent]}`}
+                >
+                  <td className="py-4 pl-4 font-medium">{tc.label}</td>
+                  <td className="py-4 pr-2 text-right font-mono text-2xl font-medium tabular-nums">
                     {perf ? perf.rating : "—"}
-                  </div>
-                  <div className="mt-1 text-sm text-muted-foreground">
-                    {perf ? `${perf.games} games played` : ""}
-                  </div>
-                </CardContent>
-              </Card>
-            )
-          })}
-        </div>
+                  </td>
+                  <td className="hidden py-4 text-right font-mono text-sm text-muted-foreground sm:table-cell">
+                    {perf ? perf.games : ""}
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </section>
 
       <section>
         <h2 className="mb-4 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
           The engines
         </h2>
-        <div className="grid gap-4 md:grid-cols-3">
-          {ENGINES.map((engine) => (
-            <Card key={engine.id}>
-              <CardHeader className="flex items-center justify-between">
-                <span className="font-semibold">{engine.name}</span>
-                {engine.statusLabel && (
-                  <Badge variant="secondary">{engine.statusLabel}</Badge>
-                )}
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">{engine.tagline}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <table className="w-full border-collapse">
+          <tbody>
+            {ENGINES.map((engine) => (
+              <tr key={engine.id} className="border-b border-border">
+                <td className="w-40 py-4 pr-4 align-top font-medium whitespace-nowrap">
+                  {engine.name}
+                </td>
+                <td className="hidden w-32 py-4 pr-4 align-top font-mono text-xs tracking-wide text-muted-foreground uppercase sm:table-cell">
+                  {engine.statusLabel ?? "—"}
+                </td>
+                <td className="py-4 align-top text-sm text-muted-foreground">
+                  {engine.tagline}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
 
       <section>

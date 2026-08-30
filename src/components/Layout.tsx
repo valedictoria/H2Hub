@@ -26,25 +26,25 @@ export function Layout() {
         onClick={() => setOpen((v) => !v)}
         aria-label="Toggle navigation"
         aria-expanded={open}
-        className="fixed top-4 left-4 z-40 flex size-10 items-center justify-center rounded-md border bg-card text-foreground shadow-sm md:hidden"
+        className="fixed top-4 left-4 z-40 flex size-10 items-center justify-center border border-border bg-card text-foreground md:hidden"
       >
         {open ? <X className="size-5" /> : <Menu className="size-5" />}
       </button>
 
       <nav
         className={cn(
-          "fixed top-0 left-0 z-30 flex h-screen w-64 flex-col gap-8 border-r bg-card p-6 transition-transform duration-200",
+          "fixed top-0 left-0 z-30 flex h-screen w-64 flex-col gap-8 border-r bg-card p-6 pt-20 transition-transform duration-200 md:pt-6",
           "md:translate-x-0",
           open ? "translate-x-0" : "-translate-x-full"
         )}
         aria-label="Primary"
       >
-        <div className="text-lg font-semibold tracking-tight">
-          <span className="rounded bg-primary px-1.5 py-0.5 text-primary-foreground">H2</span>
+        <div className="font-mono text-lg font-semibold tracking-tight">
+          <span className="bg-primary px-1.5 py-0.5 text-primary-foreground">H2</span>
           CHESS
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
@@ -53,9 +53,9 @@ export function Layout() {
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
                 cn(
-                  "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors",
-                  "hover:bg-accent hover:text-accent-foreground",
-                  isActive && "bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary"
+                  "border-l-2 border-transparent px-3 py-2 text-sm font-medium text-muted-foreground transition-colors",
+                  "hover:text-foreground",
+                  isActive && "border-l-primary text-primary hover:text-primary"
                 )
               }
             >
