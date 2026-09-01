@@ -1,5 +1,3 @@
-import { useTheme } from "@/lib/theme"
-
 const ENTRIES = [
   {
     date: "Aug 16, 2026",
@@ -22,64 +20,27 @@ const ENTRIES = [
 ]
 
 export function News() {
-  const { theme } = useTheme()
-  const isTeletype = theme === "teletype"
-
   return (
     <div>
-      <span
-        className={
-          isTeletype
-            ? "font-mono text-xs tracking-widest text-muted-foreground uppercase"
-            : "text-xs font-semibold tracking-widest text-muted-foreground uppercase"
-        }
-      >
+      <span className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
         Dispatch log
       </span>
-      <h1
-        className={
-          isTeletype
-            ? "mb-6 font-display text-4xl tracking-wide uppercase"
-            : "mt-2 mb-10 text-display-md"
-        }
-      >
-        News
-      </h1>
+      <h1 className="mt-2 mb-10 text-display-md">News</h1>
 
-      <div className={isTeletype ? "border-t border-border" : "flex flex-col gap-4"}>
+      <div className="flex flex-col gap-4">
         {ENTRIES.map((entry) => (
           <article
             key={entry.title}
-            className={
-              isTeletype
-                ? "border-b border-border py-6"
-                : "rounded-[var(--radius-card)] border border-hairline bg-card p-7"
-            }
+            className="rounded-[var(--radius-card)] border border-hairline bg-card p-7"
           >
-            {isTeletype ? (
-              <div className="mb-1 font-mono text-xs text-primary uppercase">{entry.date}</div>
-            ) : (
-              <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <span className="size-2 rounded-full" style={{ background: entry.dot }} />
-                {entry.date}
-              </div>
-            )}
-            <h3
-              className={
-                isTeletype
-                  ? "mb-2 font-display text-xl tracking-wide uppercase"
-                  : "mb-2 text-xl font-bold tracking-tight"
-              }
-            >
+            <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground">
+              <span className="size-2 rounded-full" style={{ background: entry.dot }} />
+              {entry.date}
+            </div>
+            <h3 className="mb-2 text-xl font-bold tracking-tight">
               {entry.title}
             </h3>
-            <p
-              className={
-                isTeletype
-                  ? "max-w-2xl font-mono text-sm leading-relaxed text-foreground/85"
-                  : "max-w-2xl text-sm leading-relaxed text-muted-foreground"
-              }
-            >
+            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
               {entry.body}
             </p>
           </article>

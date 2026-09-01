@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
-export type ThemeId = "warm" | "bright" | "teletype"
+export type ThemeId = "warm" | "nvidia" | "verge"
 
 export type ThemeDef = {
   id: ThemeId
@@ -9,11 +9,13 @@ export type ThemeDef = {
   swatch: [string, string, string, string]
 }
 
-// Three real design systems, not just recolors: "warm" and "bright" share
-// one component language (adapted from clay.com's extracted tokens —
-// styl4e/tokens.json and styl4e/preview.html read as two different
-// palettes for the same brand); "teletype" is the site's previous, more
-// structurally distinct dispatch identity, restored as a togglable option.
+// Three real design systems extracted from brand references, not recolors
+// of one template. "warm" (Clay) is the direction already live. "nvidia"
+// and "verge" come from styl4e-style token packages in nvidia-brand-
+// package.zip / theverge-brand-package.zip — each package's tokens.json
+// disagreed with its own preview.html again (same pattern as Clay), so
+// tokens.json + theme.css (which agreed with each other) won over
+// preview.html's rendering in both cases.
 export const THEMES: ThemeDef[] = [
   {
     id: "warm",
@@ -22,16 +24,16 @@ export const THEMES: ThemeDef[] = [
     swatch: ["#fffaf0", "#1a3a3a", "#b8a4ed", "#ffb084"],
   },
   {
-    id: "bright",
-    label: "Clay — Bright",
-    description: "White canvas, pure ink, violet/lime/orange/cobalt accents.",
-    swatch: ["#ffffff", "#3859f9", "#cbd810", "#ff7614"],
+    id: "nvidia",
+    label: "NVIDIA",
+    description: "White engineering canvas, black hero/footer chapters, NVIDIA Green accent.",
+    swatch: ["#ffffff", "#000000", "#76b900", "#1a1a1a"],
   },
   {
-    id: "teletype",
-    label: "Teletype",
-    description: "Near-black dispatch, aged cream text, one red accent.",
-    swatch: ["#161210", "#a3232f", "#e9dfc8", "#8c8272"],
+    id: "verge",
+    label: "The Verge",
+    description: "Near-black canvas, no light mode, acid-mint and ultraviolet hazard-tape accents.",
+    swatch: ["#131313", "#3cffd0", "#5200ff", "#ff2e9c"],
   },
 ]
 
@@ -39,7 +41,7 @@ const STORAGE_KEY = "h2chess-theme"
 const DEFAULT_THEME: ThemeId = "warm"
 
 function isThemeId(value: string | null): value is ThemeId {
-  return value === "warm" || value === "bright" || value === "teletype"
+  return value === "warm" || value === "nvidia" || value === "verge"
 }
 
 const ThemeContext = createContext<{

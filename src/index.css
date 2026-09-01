@@ -3,21 +3,17 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/big-shoulders-display";
-@import "@fontsource/courier-prime";
-@import "@fontsource/courier-prime/700.css";
 @import "@fontsource/fira-code";
 
 @custom-variant dark (&:is(.dark *));
 
 /* Three togglable design systems (see src/lib/theme.tsx), set via
-   [data-theme] on <html>. "warm" and "bright" are two readings of the same
-   clay.com token extraction (styl4e/tokens.json vs styl4e/preview.html —
-   the two files disagreed on palette, so both are offered rather than
-   picking one). "teletype" is the site's previous, structurally distinct
-   dispatch identity, restored as the third option. Color/type/radius
-   tokens are plain custom properties (not routed through Tailwind's
-   `@theme inline`) so every value re-resolves live when [data-theme]
-   changes — no rebuild, no flash beyond the inline script in index.html. */
+   [data-theme] on <html>. "warm" is the Clay-derived direction already
+   live. "nvidia" and "verge" come from real brand-token extractions
+   (nvidia-brand-package.zip / theverge-brand-package.zip). Tokens are
+   plain custom properties (not routed through Tailwind's `@theme inline`)
+   so every value re-resolves live when [data-theme] changes — no
+   rebuild, no flash beyond the inline script in index.html. */
 :root,
 [data-theme="warm"] {
   --background: #fffaf0;
@@ -54,80 +50,95 @@
   --font-body: "Inter Variable", "Inter", sans-serif;
   --heading-transform: none;
   --heading-tracking: -0.02em;
+  --nav-bg: var(--background);
+  --nav-fg: var(--foreground);
+  --nav-border: var(--hairline);
 }
 
-[data-theme="bright"] {
+/* NVIDIA: engineering-grade — white paper canvas for body content, deep
+   black "chapter" surfaces for the nav/hero/footer, NVIDIA Green as the
+   single accent (never a fill for large areas), 2px radius everywhere. */
+[data-theme="nvidia"] {
   --background: #ffffff;
   --foreground: #000000;
-  --card: #f9f8f6;
+  --card: #f7f7f7;
   --card-foreground: #000000;
   --popover: #ffffff;
   --popover-foreground: #000000;
-  --primary: #000000;
-  --primary-foreground: #ffffff;
-  --secondary: #f9f8f6;
+  --primary: #76b900;
+  --primary-foreground: #000000;
+  --secondary: #f7f7f7;
   --secondary-foreground: #000000;
-  --muted: #f9f8f6;
-  --muted-foreground: #9f9b93;
-  --accent: #f9f8f6;
+  --muted: #f7f7f7;
+  --muted-foreground: #757575;
+  --accent: #f7f7f7;
   --accent-foreground: #000000;
-  --destructive: #ef4444;
-  --border: #e6e8ec;
-  --hairline: #e6e8ec;
-  --input: #e6e8ec;
-  --ring: #3859f9;
-  --engine-1: #0667d9;
+  --destructive: #e52020;
+  --border: #cccccc;
+  --hairline: #cccccc;
+  --input: #cccccc;
+  --ring: #76b900;
+  --engine-1: #0a0a0a;
   --engine-1-fg: #ffffff;
-  --engine-2: #b8a5e8;
-  --engine-2-fg: #000000;
-  --engine-3: #ff7614;
-  --engine-3-fg: #000000;
-  --news-1: #cbd810;
-  --news-2: #429dff;
-  --news-3: #3859f9;
-  --radius-btn: 1584px;
-  --radius-card: 40px;
+  --engine-2: #0a0a0a;
+  --engine-2-fg: #ffffff;
+  --engine-3: #0a0a0a;
+  --engine-3-fg: #ffffff;
+  --news-1: #76b900;
+  --news-2: #5a8d00;
+  --news-3: #3f8500;
+  --radius-btn: 2px;
+  --radius-card: 2px;
   --font-display: "Inter Variable", "Inter", sans-serif;
   --font-body: "Inter Variable", "Inter", sans-serif;
   --heading-transform: none;
-  --heading-tracking: -0.045em;
+  --heading-tracking: -0.02em;
+  --nav-bg: #000000;
+  --nav-fg: #ffffff;
+  --nav-border: #1a1a1a;
 }
 
-[data-theme="teletype"] {
-  --background: #161210;
-  --foreground: #e9dfc8;
-  --card: #1d1815;
-  --card-foreground: #e9dfc8;
-  --popover: #1d1815;
-  --popover-foreground: #e9dfc8;
-  --primary: #a3232f;
-  --primary-foreground: #e9dfc8;
-  --secondary: #23201c;
-  --secondary-foreground: #e9dfc8;
-  --muted: #23201c;
-  --muted-foreground: #8c8272;
-  --accent: #23201c;
-  --accent-foreground: #e9dfc8;
-  --destructive: #a3232f;
-  --border: rgba(233, 223, 200, 0.14);
-  --hairline: rgba(233, 223, 200, 0.14);
-  --input: rgba(233, 223, 200, 0.14);
-  --ring: #a3232f;
-  --engine-1: #a3232f;
-  --engine-1-fg: #e9dfc8;
-  --engine-2: #a3232f;
-  --engine-2-fg: #e9dfc8;
-  --engine-3: #a3232f;
-  --engine-3-fg: #e9dfc8;
-  --news-1: #a3232f;
-  --news-2: #a3232f;
-  --news-3: #a3232f;
+/* The Verge: no light mode, ever — near-black canvas throughout, huge
+   heavy display type, acid-mint / ultraviolet as hazard-tape accents on
+   full-bleed "story tile" engine cards. Sharp corners. */
+[data-theme="verge"] {
+  --background: #131313;
+  --foreground: #ffffff;
+  --card: #1a1a1a;
+  --card-foreground: #ffffff;
+  --popover: #1a1a1a;
+  --popover-foreground: #ffffff;
+  --primary: #3cffd0;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #949494;
+  --accent: #1a1a1a;
+  --accent-foreground: #ffffff;
+  --destructive: #ff3355;
+  --border: #2d2d2d;
+  --hairline: #2d2d2d;
+  --input: #2d2d2d;
+  --ring: #5200ff;
+  --engine-1: #3cffd0;
+  --engine-1-fg: #0a0a0a;
+  --engine-2: #5200ff;
+  --engine-2-fg: #ffffff;
+  --engine-3: #ff2e9c;
+  --engine-3-fg: #0a0a0a;
+  --news-1: #3cffd0;
+  --news-2: #5200ff;
+  --news-3: #ff2e9c;
   --radius-btn: 0px;
   --radius-card: 0px;
   --font-display: "Big Shoulders Display Variable", sans-serif;
-  --font-body: "Courier Prime", ui-monospace, monospace;
-  --heading-transform: uppercase;
-  --heading-tracking: 0.02em;
+  --font-body: "Inter Variable", "Inter", sans-serif;
+  --heading-transform: none;
+  --heading-tracking: -0.03em;
+  --nav-bg: var(--background);
+  --nav-fg: var(--foreground);
+  --nav-border: var(--hairline);
 }
 
 @theme inline {
@@ -194,31 +205,6 @@
     text-transform: var(--heading-transform);
     letter-spacing: var(--heading-tracking);
   }
-}
-
-[data-theme="teletype"] body {
-  background-image:
-    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(163, 35, 47, 0.16), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(233, 223, 200, 0.025) 0px, rgba(233, 223, 200, 0.025) 1px, transparent 1px, transparent 3px);
-}
-
-[data-theme="teletype"] ::selection {
-  background: #cbd810;
-  color: #0a0a0a;
-}
-
-/* Fine paper-grain texture, only visible in the teletype theme. */
-.grain::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-}
-[data-theme="teletype"] .grain::before {
-  opacity: 0.5;
 }
 
 @layer utilities {
