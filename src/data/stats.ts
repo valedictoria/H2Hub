@@ -1,6 +1,7 @@
-// Placeholder ELO data, shaped exactly like Lichess's real
-// GET /api/user/MeikeChess -> .perfs.* response, so the live swap later is
-// a single function body, not a call-site hunt.
+// Live ELO data, fetched from /api/ratings (a Vercel Edge Function that
+// proxies and caches Lichess's GET /api/user/MeikeChess). Falls back to
+// placeholder numbers if the fetch fails, so a Lichess outage degrades
+// to stale-looking data instead of a broken page.
 export type Perf = {
   games: number
   rating: number
@@ -12,10 +13,10 @@ export type Perf = {
 export type Stats = {
   username: string
   perfs: {
-    classical: Perf
-    rapid: Perf
-    blitz: Perf
-    bullet: Perf
+    classical: Perf | null
+    rapid: Perf | null
+    blitz: Perf | null
+    bullet: Perf | null
   }
 }
 
@@ -29,9 +30,22 @@ const PLACEHOLDER_STATS: Stats = {
   },
 }
 
+function isStats(value: unknown): value is Stats {
+  if (!value || typeof value !== "object") return false
+  const perfs = (value as { perfs?: unknown }).perfs
+  return typeof perfs === "object" && perfs !== null
+}
+
 export async function getStats(): Promise<Stats> {
-  // TODO(live-data): return fetch('https://lichess.org/api/user/MeikeChess').then((r) => r.json())
-  return PLACEHOLDER_STATS
+  try {
+    const res = await fetch("/api/ratings")
+    if (!res.ok) throw new Error(`ratings endpoint returned ${res.status}`)
+    const data: unknown = await res.json()
+    if (!isStats(data)) throw new Error("unexpected ratings response shape")
+    return data
+  } catch {
+    return PLACEHOLDER_STATS
+  }
 }
 
 export const TIME_CONTROLS = [
