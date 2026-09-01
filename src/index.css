@@ -1,20 +1,20 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/big-shoulders-display";
-@import "@fontsource/courier-prime";
-@import "@fontsource/courier-prime/700.css";
+@import "@fontsource-variable/inter";
 @import "@fontsource/fira-code";
 
 @custom-variant dark (&:is(.dark *));
 
-/* Cold War teletype broadcast: a chess-engine dispatch, not a SaaS product.
-   Dominant near-black + aged cream, ONE sharp accent (dispatch red), used
-   only at decision points — never as a fourth or fifth hue. */
+/* Clay-derived direction: warm cream canvas, near-black ink, and one
+   saturated hue per engine used as a full-bleed card surface — never mixed
+   inside a single card. Adapted from clay.com's extracted tokens
+   (styl4e/tokens.json) for a three-engine chess project instead of a GTM
+   SaaS: proof-of-work replaces proof-of-logos. */
 @theme inline {
     --font-heading: var(--font-display);
-    --font-display: 'Big Shoulders Display Variable', sans-serif;
-    --font-sans: 'Courier Prime', ui-monospace, monospace;
+    --font-display: 'Inter Variable', 'Inter', sans-serif;
+    --font-sans: 'Inter Variable', 'Inter', sans-serif;
     --font-mono: 'Fira Code', ui-monospace, monospace;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -42,40 +42,50 @@
     --color-card: var(--card);
     --color-foreground: var(--foreground);
     --color-background: var(--background);
-    --color-dispatch: var(--dispatch);
-    --color-dispatch-foreground: var(--dispatch-foreground);
-    --radius: 0rem;
+    --color-hairline: var(--hairline);
+    --color-teal: var(--brand-teal);
+    --color-lavender: var(--brand-lavender);
+    --color-peach: var(--brand-peach);
+    --color-ochre: var(--brand-ochre);
+    --color-mint: var(--brand-mint);
+    --color-coral: var(--brand-coral);
+    --radius: 0.75rem;
 }
 
 :root {
-    --background: #161210;
-    --foreground: #e9dfc8;
-    --card: #1d1815;
-    --card-foreground: #e9dfc8;
-    --popover: #1d1815;
-    --popover-foreground: #e9dfc8;
-    --primary: #a3232f;
-    --primary-foreground: #e9dfc8;
-    --secondary: #23201c;
-    --secondary-foreground: #e9dfc8;
-    --muted: #23201c;
-    --muted-foreground: #8c8272;
-    --accent: #23201c;
-    --accent-foreground: #e9dfc8;
-    --destructive: #a3232f;
-    --border: rgba(233, 223, 200, 0.14);
-    --input: rgba(233, 223, 200, 0.14);
-    --ring: #a3232f;
-    --dispatch: #a3232f;
-    --dispatch-foreground: #e9dfc8;
-    --sidebar: #1d1815;
-    --sidebar-foreground: #e9dfc8;
-    --sidebar-primary: #a3232f;
-    --sidebar-primary-foreground: #e9dfc8;
-    --sidebar-accent: #23201c;
-    --sidebar-accent-foreground: #e9dfc8;
-    --sidebar-border: rgba(233, 223, 200, 0.14);
-    --sidebar-ring: #a3232f;
+    --background: #fffaf0;
+    --foreground: #0a0a0a;
+    --card: #f5f0e0;
+    --card-foreground: #0a0a0a;
+    --popover: #fffaf0;
+    --popover-foreground: #0a0a0a;
+    --primary: #0a0a0a;
+    --primary-foreground: #fffaf0;
+    --secondary: #ebe6d6;
+    --secondary-foreground: #0a0a0a;
+    --muted: #f5f0e0;
+    --muted-foreground: #6a6a6a;
+    --accent: #ebe6d6;
+    --accent-foreground: #0a0a0a;
+    --destructive: #ef4444;
+    --border: #e5d9c0;
+    --hairline: #e5d9c0;
+    --input: #e5d9c0;
+    --ring: #0a0a0a;
+    --brand-teal: #1a3a3a;
+    --brand-lavender: #b8a4ed;
+    --brand-peach: #ffb084;
+    --brand-ochre: #e8b94a;
+    --brand-mint: #a4d4c5;
+    --brand-coral: #ff6b5a;
+    --sidebar: #fffaf0;
+    --sidebar-foreground: #0a0a0a;
+    --sidebar-primary: #0a0a0a;
+    --sidebar-primary-foreground: #fffaf0;
+    --sidebar-accent: #ebe6d6;
+    --sidebar-accent-foreground: #0a0a0a;
+    --sidebar-border: #e5d9c0;
+    --sidebar-ring: #0a0a0a;
 }
 
 @layer base {
@@ -84,26 +94,45 @@
     }
   body {
     @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(163, 35, 47, 0.16), transparent 60%),
-      repeating-linear-gradient(0deg, rgba(233, 223, 200, 0.025) 0px, rgba(233, 223, 200, 0.025) 1px, transparent 1px, transparent 3px);
     }
   html {
     @apply font-sans;
     }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
+    letter-spacing: -0.02em;
   }
 }
 
-/* Fine paper-grain texture, layered separately so it can tile independently
-   of the radial glow above. */
-.grain::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.5;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+@layer utilities {
+  .text-display-xl {
+    font-size: clamp(2.75rem, 4.5vw + 1rem, 4.5rem);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+  .text-display-lg {
+    font-size: clamp(2.25rem, 3vw + 1rem, 3.5rem);
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+  .text-display-md {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .text-display-sm {
+    font-size: 2rem;
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .text-metric {
+    font-size: 2.75rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
 }

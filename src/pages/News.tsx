@@ -1,40 +1,52 @@
 const ENTRIES = [
   {
-    date: "AUG 16, 2026",
+    date: "Aug 16, 2026",
     title: "BravoBlue: a new evaluation network is in training",
     body: "BravoBlue is growing its own evaluation network from self-play instead of reusing an existing one. The self-play dataset is done — just over 26 million positions — but training and head-to-head testing against the current network haven't started yet.",
+    tag: "lavender" as const,
   },
   {
-    date: "AUG 3, 2026",
+    date: "Aug 3, 2026",
     title: "Fairy-MC: a new engine for chess variants",
     body: "Fairy-MC is a fork of Nature v2.1 built to play chess variants, not just standard chess, from one binary. King of the Hill is working end to end: in self-play testing, every move stayed legal and games ended correctly when a king reached the center. Three-check, Racing Kings, and Horde are next, followed by Antichess, Atomic, and Chess960.",
+    tag: "peach" as const,
   },
   {
-    date: "AUG 3, 2026",
+    date: "Aug 3, 2026",
     title: "Nature v2.1: faster search, smarter time management",
     body: "This release adds NEON SIMD for the evaluation network, a time management change that extends thinking time when the engine's evaluation drops sharply, and support for MultiPV, ponder, and other options external chess interfaces expect. It also adds razoring and a second search thread, both of which looked promising in short test runs but haven't yet been confirmed by a longer, statistically rigorous match.",
+    tag: "teal" as const,
   },
 ]
+
+const DOT: Record<(typeof ENTRIES)[number]["tag"], string> = {
+  lavender: "bg-lavender",
+  peach: "bg-peach",
+  teal: "bg-teal",
+}
 
 export function News() {
   return (
     <div>
-      <h1 className="mb-1 font-display text-4xl tracking-wide uppercase">
-        News
-      </h1>
-      <p className="mb-6 font-mono text-xs tracking-widest text-muted-foreground uppercase">
+      <span className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
         Dispatch log
-      </p>
-      <div className="border-t border-border">
+      </span>
+      <h1 className="mt-2 mb-10 text-display-md">News</h1>
+
+      <div className="flex flex-col gap-4">
         {ENTRIES.map((entry) => (
-          <article key={entry.title} className="border-b border-border py-6">
-            <div className="mb-1 font-mono text-xs text-primary uppercase">
+          <article
+            key={entry.title}
+            className="rounded-3xl border border-hairline bg-card p-7"
+          >
+            <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground">
+              <span className={`size-2 rounded-full ${DOT[entry.tag]}`} />
               {entry.date}
             </div>
-            <h3 className="mb-2 font-display text-xl tracking-wide uppercase">
+            <h3 className="mb-2 text-xl font-bold tracking-tight">
               {entry.title}
             </h3>
-            <p className="max-w-2xl font-mono text-sm leading-relaxed text-foreground/85">
+            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
               {entry.body}
             </p>
           </article>
