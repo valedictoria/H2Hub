@@ -2,106 +2,223 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "@fontsource-variable/big-shoulders-display";
+@import "@fontsource/courier-prime";
+@import "@fontsource/courier-prime/700.css";
 @import "@fontsource/fira-code";
 
 @custom-variant dark (&:is(.dark *));
 
-/* Clay-derived direction: warm cream canvas, near-black ink, and one
-   saturated hue per engine used as a full-bleed card surface — never mixed
-   inside a single card. Adapted from clay.com's extracted tokens
-   (styl4e/tokens.json) for a three-engine chess project instead of a GTM
-   SaaS: proof-of-work replaces proof-of-logos. */
-@theme inline {
-    --font-heading: var(--font-display);
-    --font-display: 'Inter Variable', 'Inter', sans-serif;
-    --font-sans: 'Inter Variable', 'Inter', sans-serif;
-    --font-mono: 'Fira Code', ui-monospace, monospace;
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --color-hairline: var(--hairline);
-    --color-teal: var(--brand-teal);
-    --color-lavender: var(--brand-lavender);
-    --color-peach: var(--brand-peach);
-    --color-ochre: var(--brand-ochre);
-    --color-mint: var(--brand-mint);
-    --color-coral: var(--brand-coral);
-    --radius: 0.75rem;
+/* Three togglable design systems (see src/lib/theme.tsx), set via
+   [data-theme] on <html>. "warm" and "bright" are two readings of the same
+   clay.com token extraction (styl4e/tokens.json vs styl4e/preview.html —
+   the two files disagreed on palette, so both are offered rather than
+   picking one). "teletype" is the site's previous, structurally distinct
+   dispatch identity, restored as the third option. Color/type/radius
+   tokens are plain custom properties (not routed through Tailwind's
+   `@theme inline`) so every value re-resolves live when [data-theme]
+   changes — no rebuild, no flash beyond the inline script in index.html. */
+:root,
+[data-theme="warm"] {
+  --background: #fffaf0;
+  --foreground: #0a0a0a;
+  --card: #f5f0e0;
+  --card-foreground: #0a0a0a;
+  --popover: #fffaf0;
+  --popover-foreground: #0a0a0a;
+  --primary: #0a0a0a;
+  --primary-foreground: #fffaf0;
+  --secondary: #ebe6d6;
+  --secondary-foreground: #0a0a0a;
+  --muted: #f5f0e0;
+  --muted-foreground: #6a6a6a;
+  --accent: #ebe6d6;
+  --accent-foreground: #0a0a0a;
+  --destructive: #ef4444;
+  --border: #e5d9c0;
+  --hairline: #e5d9c0;
+  --input: #e5d9c0;
+  --ring: #0a0a0a;
+  --engine-1: #1a3a3a;
+  --engine-1-fg: #ffffff;
+  --engine-2: #b8a4ed;
+  --engine-2-fg: #0a0a0a;
+  --engine-3: #ffb084;
+  --engine-3-fg: #0a0a0a;
+  --news-1: #b8a4ed;
+  --news-2: #ffb084;
+  --news-3: #1a3a3a;
+  --radius-btn: 9999px;
+  --radius-card: 1.5rem;
+  --font-display: "Inter Variable", "Inter", sans-serif;
+  --font-body: "Inter Variable", "Inter", sans-serif;
+  --heading-transform: none;
+  --heading-tracking: -0.02em;
 }
 
+[data-theme="bright"] {
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #f9f8f6;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #f9f8f6;
+  --secondary-foreground: #000000;
+  --muted: #f9f8f6;
+  --muted-foreground: #9f9b93;
+  --accent: #f9f8f6;
+  --accent-foreground: #000000;
+  --destructive: #ef4444;
+  --border: #e6e8ec;
+  --hairline: #e6e8ec;
+  --input: #e6e8ec;
+  --ring: #3859f9;
+  --engine-1: #0667d9;
+  --engine-1-fg: #ffffff;
+  --engine-2: #b8a5e8;
+  --engine-2-fg: #000000;
+  --engine-3: #ff7614;
+  --engine-3-fg: #000000;
+  --news-1: #cbd810;
+  --news-2: #429dff;
+  --news-3: #3859f9;
+  --radius-btn: 1584px;
+  --radius-card: 40px;
+  --font-display: "Inter Variable", "Inter", sans-serif;
+  --font-body: "Inter Variable", "Inter", sans-serif;
+  --heading-transform: none;
+  --heading-tracking: -0.045em;
+}
+
+[data-theme="teletype"] {
+  --background: #161210;
+  --foreground: #e9dfc8;
+  --card: #1d1815;
+  --card-foreground: #e9dfc8;
+  --popover: #1d1815;
+  --popover-foreground: #e9dfc8;
+  --primary: #a3232f;
+  --primary-foreground: #e9dfc8;
+  --secondary: #23201c;
+  --secondary-foreground: #e9dfc8;
+  --muted: #23201c;
+  --muted-foreground: #8c8272;
+  --accent: #23201c;
+  --accent-foreground: #e9dfc8;
+  --destructive: #a3232f;
+  --border: rgba(233, 223, 200, 0.14);
+  --hairline: rgba(233, 223, 200, 0.14);
+  --input: rgba(233, 223, 200, 0.14);
+  --ring: #a3232f;
+  --engine-1: #a3232f;
+  --engine-1-fg: #e9dfc8;
+  --engine-2: #a3232f;
+  --engine-2-fg: #e9dfc8;
+  --engine-3: #a3232f;
+  --engine-3-fg: #e9dfc8;
+  --news-1: #a3232f;
+  --news-2: #a3232f;
+  --news-3: #a3232f;
+  --radius-btn: 0px;
+  --radius-card: 0px;
+  --font-display: "Big Shoulders Display Variable", sans-serif;
+  --font-body: "Courier Prime", ui-monospace, monospace;
+  --heading-transform: uppercase;
+  --heading-tracking: 0.02em;
+}
+
+@theme inline {
+  --font-mono: "Fira Code", ui-monospace, monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-hairline: var(--hairline);
+  --radius: 0.75rem;
+}
+
+/* sidebar-* aliases so shadcn's default sidebar utilities resolve even
+   though this project doesn't use the shadcn sidebar component. */
 :root {
-    --background: #fffaf0;
-    --foreground: #0a0a0a;
-    --card: #f5f0e0;
-    --card-foreground: #0a0a0a;
-    --popover: #fffaf0;
-    --popover-foreground: #0a0a0a;
-    --primary: #0a0a0a;
-    --primary-foreground: #fffaf0;
-    --secondary: #ebe6d6;
-    --secondary-foreground: #0a0a0a;
-    --muted: #f5f0e0;
-    --muted-foreground: #6a6a6a;
-    --accent: #ebe6d6;
-    --accent-foreground: #0a0a0a;
-    --destructive: #ef4444;
-    --border: #e5d9c0;
-    --hairline: #e5d9c0;
-    --input: #e5d9c0;
-    --ring: #0a0a0a;
-    --brand-teal: #1a3a3a;
-    --brand-lavender: #b8a4ed;
-    --brand-peach: #ffb084;
-    --brand-ochre: #e8b94a;
-    --brand-mint: #a4d4c5;
-    --brand-coral: #ff6b5a;
-    --sidebar: #fffaf0;
-    --sidebar-foreground: #0a0a0a;
-    --sidebar-primary: #0a0a0a;
-    --sidebar-primary-foreground: #fffaf0;
-    --sidebar-accent: #ebe6d6;
-    --sidebar-accent-foreground: #0a0a0a;
-    --sidebar-border: #e5d9c0;
-    --sidebar-ring: #0a0a0a;
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--card-foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--secondary);
+  --sidebar-accent-foreground: var(--secondary-foreground);
+  --sidebar-border: var(--hairline);
+  --sidebar-ring: var(--ring);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
   body {
     @apply bg-background text-foreground;
-    }
-  html {
-    @apply font-sans;
-    }
-  h1, h2, h3, h4 {
-    font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    font-family: var(--font-body);
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
   }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-transform: var(--heading-transform);
+    letter-spacing: var(--heading-tracking);
+  }
+}
+
+[data-theme="teletype"] body {
+  background-image:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(163, 35, 47, 0.16), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(233, 223, 200, 0.025) 0px, rgba(233, 223, 200, 0.025) 1px, transparent 1px, transparent 3px);
+}
+
+[data-theme="teletype"] ::selection {
+  background: #cbd810;
+  color: #0a0a0a;
+}
+
+/* Fine paper-grain texture, only visible in the teletype theme. */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+[data-theme="teletype"] .grain::before {
+  opacity: 0.5;
 }
 
 @layer utilities {
@@ -109,25 +226,25 @@
     font-size: clamp(2.75rem, 4.5vw + 1rem, 4.5rem);
     line-height: 1;
     font-weight: 700;
-    letter-spacing: -0.03em;
+    letter-spacing: var(--heading-tracking);
   }
   .text-display-lg {
     font-size: clamp(2.25rem, 3vw + 1rem, 3.5rem);
     line-height: 1.05;
     font-weight: 700;
-    letter-spacing: -0.025em;
+    letter-spacing: var(--heading-tracking);
   }
   .text-display-md {
     font-size: 2.5rem;
     line-height: 1.1;
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: var(--heading-tracking);
   }
   .text-display-sm {
     font-size: 2rem;
     line-height: 1.15;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: var(--heading-tracking);
   }
   .text-metric {
     font-size: 2.75rem;

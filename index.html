@@ -15,6 +15,17 @@
     <meta name="twitter:image" content="/og-image.png" />
   </head>
   <body>
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("h2chess-theme")
+          var theme = saved === "bright" || saved === "teletype" ? saved : "warm"
+          document.documentElement.dataset.theme = theme
+        } catch (e) {
+          document.documentElement.dataset.theme = "warm"
+        }
+      })()
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
