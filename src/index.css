@@ -2,23 +2,17 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
-@import "@fontsource-variable/playfair-display";
-@import "@fontsource-variable/playfair-display/wght-italic.css";
-@import "@fontsource-variable/bricolage-grotesque";
-@import "@fontsource-variable/climate-crisis";
 @import "@fontsource/fira-code";
 
 @custom-variant dark (&:is(.dark *));
 
-/* Three togglable design systems (see src/lib/theme.tsx), set via
-   [data-theme] on <html>. "warm" is the Clay-derived direction already
-   live. "nvidia" and "verge" come from real brand-token extractions
-   (nvidia-brand-package.zip / theverge-brand-package.zip). Tokens are
-   plain custom properties (not routed through Tailwind's `@theme inline`)
-   so every value re-resolves live when [data-theme] changes — no
-   rebuild, no flash beyond the inline script in index.html. */
-:root,
-[data-theme="warm"] {
+/* Clay-derived direction: warm cream canvas, near-black ink, and one
+   saturated hue per engine used as a full-bleed card surface — never
+   mixed inside a single card. Adapted from clay.com's extracted tokens
+   for a three-engine chess project instead of a GTM SaaS. (NVIDIA/Verge
+   alternates were explored and dropped — see git history if reviving
+   a design toggle is ever wanted again.) */
+:root {
   --background: #fffaf0;
   --foreground: #0a0a0a;
   --card: #f5f0e0;
@@ -49,105 +43,11 @@
   --news-3: #1a3a3a;
   --radius-btn: 9999px;
   --radius-card: 1.5rem;
-  --font-display: "Inter Variable", "Inter", sans-serif;
-  --font-body: "Inter Variable", "Inter", sans-serif;
-  --font-accent: "Inter Variable", "Inter", sans-serif;
-  --heading-transform: none;
-  --heading-tracking: -0.02em;
-  --nav-bg: var(--background);
-  --nav-fg: var(--foreground);
-  --nav-border: var(--hairline);
-}
-
-/* NVIDIA: engineering-grade — white paper canvas for body content, deep
-   black "chapter" surfaces for the nav/hero/footer, NVIDIA Green as the
-   single accent (never a fill for large areas), 2px radius everywhere. */
-[data-theme="nvidia"] {
-  --background: #ffffff;
-  --foreground: #000000;
-  --card: #f7f7f7;
-  --card-foreground: #000000;
-  --popover: #ffffff;
-  --popover-foreground: #000000;
-  --primary: #76b900;
-  --primary-foreground: #000000;
-  --secondary: #f7f7f7;
-  --secondary-foreground: #000000;
-  --muted: #f7f7f7;
-  --muted-foreground: #757575;
-  --accent: #f7f7f7;
-  --accent-foreground: #000000;
-  --destructive: #e52020;
-  --border: #cccccc;
-  --hairline: #cccccc;
-  --input: #cccccc;
-  --ring: #76b900;
-  --engine-1: #0a0a0a;
-  --engine-1-fg: #ffffff;
-  --engine-2: #0a0a0a;
-  --engine-2-fg: #ffffff;
-  --engine-3: #0a0a0a;
-  --engine-3-fg: #ffffff;
-  --news-1: #76b900;
-  --news-2: #5a8d00;
-  --news-3: #3f8500;
-  --radius-btn: 2px;
-  --radius-card: 2px;
-  --font-display: "Inter Variable", "Inter", sans-serif;
-  --font-body: "Inter Variable", "Inter", sans-serif;
-  --font-accent: "Inter Variable", "Inter", sans-serif;
-  --heading-transform: none;
-  --heading-tracking: -0.02em;
-  --nav-bg: #000000;
-  --nav-fg: #ffffff;
-  --nav-border: #1a1a1a;
-}
-
-/* The Verge: no light mode, ever — near-black canvas throughout, huge
-   heavy display type, acid-mint / ultraviolet as hazard-tape accents on
-   full-bleed "story tile" engine cards. Sharp corners. */
-[data-theme="verge"] {
-  --background: #131313;
-  --foreground: #ffffff;
-  --card: #1a1a1a;
-  --card-foreground: #ffffff;
-  --popover: #1a1a1a;
-  --popover-foreground: #ffffff;
-  --primary: #3cffd0;
-  --primary-foreground: #0a0a0a;
-  --secondary: #1a1a1a;
-  --secondary-foreground: #ffffff;
-  --muted: #1a1a1a;
-  --muted-foreground: #949494;
-  --accent: #1a1a1a;
-  --accent-foreground: #ffffff;
-  --destructive: #ff3355;
-  --border: #2d2d2d;
-  --hairline: #2d2d2d;
-  --input: #2d2d2d;
-  --ring: #5200ff;
-  --engine-1: #3cffd0;
-  --engine-1-fg: #0a0a0a;
-  --engine-2: #5200ff;
-  --engine-2-fg: #ffffff;
-  --engine-3: #ff2e9c;
-  --engine-3-fg: #0a0a0a;
-  --news-1: #3cffd0;
-  --news-2: #5200ff;
-  --news-3: #ff2e9c;
-  --radius-btn: 0px;
-  --radius-card: 0px;
-  --font-display: "Playfair Display Variable", serif;
-  --font-body: "Bricolage Grotesque Variable", sans-serif;
-  --font-accent: "Climate Crisis Variable", sans-serif;
-  --heading-transform: none;
-  --heading-tracking: -0.01em;
-  --nav-bg: var(--background);
-  --nav-fg: var(--foreground);
-  --nav-border: var(--hairline);
 }
 
 @theme inline {
+  --font-display: "Inter Variable", "Inter", sans-serif;
+  --font-sans: "Inter Variable", "Inter", sans-serif;
   --font-mono: "Fira Code", ui-monospace, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -197,19 +97,14 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-body);
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
+    @apply bg-background text-foreground font-sans;
   }
   h1,
   h2,
   h3,
   h4 {
     font-family: var(--font-display);
-    text-transform: var(--heading-transform);
-    letter-spacing: var(--heading-tracking);
+    letter-spacing: -0.02em;
   }
 }
 
@@ -218,39 +113,30 @@
     font-size: clamp(2.75rem, 4.5vw + 1rem, 4.5rem);
     line-height: 1;
     font-weight: 700;
-    letter-spacing: var(--heading-tracking);
+    letter-spacing: -0.03em;
   }
   .text-display-lg {
     font-size: clamp(2.25rem, 3vw + 1rem, 3.5rem);
     line-height: 1.05;
     font-weight: 700;
-    letter-spacing: var(--heading-tracking);
+    letter-spacing: -0.025em;
   }
   .text-display-md {
     font-size: 2.5rem;
     line-height: 1.1;
     font-weight: 600;
-    letter-spacing: var(--heading-tracking);
+    letter-spacing: -0.02em;
   }
   .text-display-sm {
     font-size: 2rem;
     line-height: 1.15;
     font-weight: 600;
-    letter-spacing: var(--heading-tracking);
+    letter-spacing: -0.01em;
   }
   .text-metric {
-    font-family: var(--font-accent);
     font-size: 2.75rem;
     line-height: 1;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
-}
-
-/* Climate Crisis has no standard weight axis — only a custom YEAR axis
-   (1979-2050) that renders visually heavier as the year climbs. Pin it
-   to the heaviest/latest year for the boldest look on rating numbers. */
-[data-theme="verge"] .text-metric {
-  font-weight: 400;
-  font-variation-settings: "YEAR" 2050;
 }

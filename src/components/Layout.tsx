@@ -2,7 +2,6 @@ import { useState } from "react"
 import { NavLink, Outlet } from "react-router-dom"
 import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { ThemeToggle } from "@/components/ThemeToggle"
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -10,11 +9,6 @@ const NAV_LINKS = [
   { to: "/about", label: "About" },
 ]
 
-// One structural layout shared by all three themes — a sticky top nav.
-// NVIDIA's "two surface modes" (its nav/footer stay a black chapter even
-// though the body content is white) is expressed through --nav-bg/--nav-fg
-// resolving differently than --background/--foreground, not a separate
-// component tree.
 export function Layout() {
   const [open, setOpen] = useState(false)
 
@@ -27,23 +21,13 @@ export function Layout() {
         Skip to content
       </a>
 
-      <header
-        className="sticky top-0 z-30 border-b backdrop-blur"
-        style={{
-          background: "color-mix(in srgb, var(--nav-bg) 95%, transparent)",
-          borderColor: "var(--nav-border)",
-          color: "var(--nav-fg)",
-        }}
-      >
+      <header className="sticky top-0 z-30 border-b border-hairline bg-background/95 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-5 md:px-8">
           <NavLink to="/" className="flex items-center gap-2.5" aria-label="H2CHESS home">
             <span className="font-display text-lg font-bold tracking-tight">
-              H2<span className="opacity-60">CHESS</span>
+              H2<span className="text-muted-foreground">CHESS</span>
             </span>
-            <span
-              className="hidden rounded-full px-2.5 py-1 text-[10px] font-semibold opacity-70 sm:inline-block"
-              style={{ background: "color-mix(in srgb, var(--nav-fg) 10%, transparent)" }}
-            >
+            <span className="hidden rounded-full bg-card px-2.5 py-1 text-[10px] font-semibold text-muted-foreground sm:inline-block">
               Live on Lichess
             </span>
           </NavLink>
@@ -56,20 +40,19 @@ export function Layout() {
                 end={link.to === "/"}
                 className={({ isActive }) =>
                   cn(
-                    "rounded-full px-3.5 py-2 text-sm opacity-70 transition-opacity hover:opacity-100",
-                    isActive && "opacity-100"
+                    "rounded-full px-3.5 py-2 text-sm text-muted-foreground transition-colors hover:bg-card hover:text-foreground",
+                    isActive && "text-foreground"
                   )
                 }
               >
                 {link.label}
               </NavLink>
             ))}
-            <ThemeToggle className="ml-2" />
             <a
               href="https://lichess.org/@/MeikeChess"
               target="_blank"
               rel="noopener"
-              className="ml-2 rounded-[var(--radius-btn)] bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
+              className="ml-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
             >
               Lichess ↗
             </a>
@@ -80,8 +63,7 @@ export function Layout() {
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle navigation"
             aria-expanded={open}
-            className="flex size-10 items-center justify-center rounded-full border md:hidden"
-            style={{ borderColor: "var(--nav-border)" }}
+            className="flex size-10 items-center justify-center rounded-full border border-hairline md:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -89,8 +71,7 @@ export function Layout() {
 
         {open && (
           <nav
-            className="flex flex-col gap-3 border-t px-5 py-3 md:hidden"
-            style={{ borderColor: "var(--nav-border)" }}
+            className="flex flex-col gap-1 border-t border-hairline px-5 py-3 md:hidden"
             aria-label="Primary"
           >
             {NAV_LINKS.map((link) => (
@@ -101,20 +82,19 @@ export function Layout() {
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   cn(
-                    "rounded-full px-3.5 py-2.5 text-sm opacity-70 transition-opacity",
-                    isActive && "opacity-100"
+                    "rounded-full px-3.5 py-2.5 text-sm text-muted-foreground transition-colors",
+                    isActive && "bg-card text-foreground"
                   )
                 }
               >
                 {link.label}
               </NavLink>
             ))}
-            <ThemeToggle className="self-start" />
             <a
               href="https://lichess.org/@/MeikeChess"
               target="_blank"
               rel="noopener"
-              className="rounded-[var(--radius-btn)] bg-primary px-3.5 py-2.5 text-center text-sm font-medium text-primary-foreground"
+              className="mt-1 rounded-full bg-primary px-3.5 py-2.5 text-center text-sm font-medium text-primary-foreground"
             >
               Lichess ↗
             </a>
@@ -128,21 +108,14 @@ export function Layout() {
         </div>
       </main>
 
-      <footer
-        className="border-t"
-        style={{
-          background: "var(--nav-bg)",
-          borderColor: "var(--nav-border)",
-          color: "var(--nav-fg)",
-        }}
-      >
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-8 text-sm opacity-70 sm:flex-row sm:items-center sm:justify-between md:px-8">
+      <footer className="border-t border-hairline">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:px-8">
           <span>H2CHESS — three engines, one lineage.</span>
           <a
             href="https://lichess.org/@/MeikeChess"
             target="_blank"
             rel="noopener"
-            className="transition-opacity hover:opacity-100"
+            className="hover:text-foreground"
           >
             lichess.org/@/MeikeChess ↗
           </a>
