@@ -383,7 +383,7 @@ function VergeHome({ stats }: { stats: Stats | null }) {
         <h1 className="sr-only">H2CHESS</h1>
         <motion.h2
           variants={item}
-          className="max-w-2xl text-[clamp(42px,8vw,84px)] leading-[0.95] font-black tracking-[-0.03em]"
+          className="max-w-2xl text-[clamp(42px,8vw,84px)] leading-[0.95] font-black italic tracking-[-0.01em]"
         >
           Chess engines, built loud.
         </motion.h2>
