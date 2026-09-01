@@ -1,8 +1,16 @@
+import { useEffect, useState } from "react"
 import { ENGINES } from "@/data/engines"
+import { DEFAULT_CONTENT, getContent, type AboutContent } from "@/data/content"
 
 const DOTS = ["var(--news-1)", "var(--news-2)", "var(--news-3)"]
 
 export function About() {
+  const [about, setAbout] = useState<AboutContent>(DEFAULT_CONTENT.about)
+
+  useEffect(() => {
+    getContent().then((content) => setAbout(content.about))
+  }, [])
+
   return (
     <div>
       <span className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
@@ -10,11 +18,7 @@ export function About() {
       </span>
       <h1 className="mt-2 mb-6 text-display-md">About</h1>
 
-      <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-        H2CHESS is the name for three chess engines developed as one ongoing
-        project. They share a lineage but not a codebase: each is developed
-        and measured on its own.
-      </p>
+      <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">{about.intro}</p>
 
       <div className="mt-10 flex flex-col gap-4">
         {ENGINES.map((engine, i) => (
@@ -41,23 +45,11 @@ export function About() {
       <div className="mt-14 grid gap-6 rounded-[var(--radius-card)] border border-hairline bg-card p-8 md:grid-cols-2">
         <div>
           <h2 className="mb-3 text-xl font-bold tracking-tight">How we test</h2>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            A change doesn't ship because it sounds like an improvement.
-            Every search or evaluation change is played against the
-            previous version in a large batch of games, and only kept if it
-            wins by a margin large enough to rule out random variance.
-            Move-generation correctness is checked separately before that,
-            so a change can't pass the strength test by playing illegal
-            moves.
-          </p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{about.howWeTest}</p>
         </div>
         <div>
           <h2 className="mb-3 text-xl font-bold tracking-tight">Open source</h2>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            The project is open source. Source for H2-Classical is linked
-            from the home page; BravoBlue and Fairy-MC will be published
-            once they're further along.
-          </p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{about.openSource}</p>
         </div>
       </div>
     </div>
